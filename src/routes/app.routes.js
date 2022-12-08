@@ -28,12 +28,20 @@ export default function AppRoutes() {
                     return <Ionicons name={iconName} size={size} color={color} />;
                 },
                 headerShown: false,
+                tabBarHideOnKeyboard: true,
                 tabBarShowLabel: false,
                 tabBarActiveTintColor: '#31D618',
                 tabBarInactiveTintColor: '#007319',
                 tabBarActiveBackgroundColor: 'rgba(16,18,16,0.9)',
                 tabBarInactiveBackgroundColor: 'rgba(16,18,16,0.9)',
-                tabBarStyle: { borderTopColor: 'rgba(16,18,16,0.9)' },
+                tabBarStyle: {
+                    borderTopWidth: 0,
+                    position: 'absolute',
+                    bottom: 0,
+                    left: 0,
+                    backgroundColor: 'transparent'
+                }
+            
             })}
             initialRouteName='Home'
         >

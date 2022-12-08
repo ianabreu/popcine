@@ -1,10 +1,20 @@
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Image, Text, View } from 'react-native';
+import {
+  Container,
+  Header,
+  Logo,
+  User,
+} from './styles';
 
 export default function Home() {
   return (
-    <View>
-      <Text>Home</Text>
-    </View>
+    <Container>
+      <Header>
+        <Logo />
+        <User />
+      </Header>
+
+    </Container>
   );
 }
