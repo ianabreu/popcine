@@ -5,6 +5,11 @@ import {
   Header,
   Logo,
   User,
+  Highlight,
+  Title,
+  StarsArea,
+  Star,
+  ReleaseDate,
 } from './styles';
 
 export default function Home() {
@@ -14,6 +19,20 @@ export default function Home() {
         <Logo />
         <User />
       </Header>
+
+      <Highlight>
+        <Title>Enola Holmes 2</Title>
+        <StarsArea>
+          <Star />
+          <Star />
+          <Star />
+          <Star />
+          <Star />
+        </StarsArea>
+        <ReleaseDate>04/11/2022</ReleaseDate>
+        <Title>Enola Holmes 2</Title>
+
+      </Highlight>
 
     </Container>
   );
