@@ -1,7 +1,7 @@
 import styled from "styled-components/native";
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-export const HighlightContainer = styled.View`
+export const Container = styled.View`
 align-items: center;
 flex: 0.7;
 `;

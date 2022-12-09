@@ -9,5 +9,8 @@ padding-left: 10px;
 padding-right: 10px;
 `;
 
+export const HomeList = styled.View`
+
+`;
 
 

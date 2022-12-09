@@ -7,7 +7,7 @@ flex-direction: row;
 justify-content: space-between;
 align-items: center;
 height: 50px;
-margin: 10px 0;
+margin: 20px 0 10px 0;
 `; 
 
 export const Logo = styled.Image.attrs({
