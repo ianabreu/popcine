@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, ImageBackground } from 'react-native';
 import {
     Container,
@@ -9,29 +9,11 @@ import {
     Sinopse,
     SinopseText,
 } from './styles';
+import StarsRate from '../StarsRate';
 
-export default function TrendingMovie({data}) {
-    const [stars, setStars ] = useState(['star', 'star', 'star', 'star', 'star'])
-    function renderStars() {
-
-        for (let index = 0; index < stars.length; index++) {
-            return (
-                <StarsArea>
-                    <Star />
-                    <Star />
-                    <Star />
-                    <Star />
-                    <Star />
-                </StarsArea>
-            )
-        }
-        // const vote = data.vote_average;
-        // if(vote > 9 && vote <= 10) {
-
-        // }
+export default function TrendingMovie({ data }) {
     
-    }
-return (
+    return (
         <Container>
             <ImageBackground
                 resizeMode="cover"
@@ -47,8 +29,11 @@ return (
                 source={{ uri: `https://www.themoviedb.org/t/p/w600_and_h900_bestv2${data.backdrop_path}` }}
             ></ImageBackground>
 
-            <Title>{data.title}</Title>
-            {renderStars()}
+            <Title>{data.title || data.original_title || 'Sem Título'}</Title>
+
+                <StarsRate rating={data.vote_average} />
+
+
             <ReleaseDate>{data.release_date}</ReleaseDate>
 
             <View >
@@ -58,5 +43,5 @@ return (
             </View>
 
         </Container>
-    );
+    )
 }

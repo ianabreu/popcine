@@ -1,5 +1,5 @@
 import styled from "styled-components/native";
-import Ionicons from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/MaterialIcons';
 
 export const Container = styled.View`
 align-items: center;
@@ -11,17 +11,6 @@ font-size: 24px;
 font-weight: bold;
 `;
 
-export const StarsArea = styled.View`
-flex-direction: row;
-margin: 10px 0;
-`;
-export const Star = styled(Ionicons).attrs({
-    name: 'star',
-    size: 15,
-})`
-margin-left: 5px;
-color: #E0E722;
-`
 export const ReleaseDate = styled.Text`
 color: #FFF;
 font-size: 15px;

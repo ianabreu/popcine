@@ -13,17 +13,15 @@ import MovieList from '../../components/MovieList';
 export default function Home() {
   const { trendingMovie } = useContext(MovieContext);
 
-
-  return (
-    <Container>
-      <Header />
-      <TrendingMovie data={trendingMovie}/>
-      <Text></Text>
-      {/* <HomeList>
-        {movies.map((item, key) => (
-          <MovieList key={key} data={item} />
-        ))}
-      </HomeList> */}
-    </Container>
-  );
+return (
+  <Container>
+    <Header />
+    <TrendingMovie data={trendingMovie}/>
+    {/* <HomeList>
+      {movies.map((item, key) => (
+        <MovieList key={key} data={item} />
+      ))}
+    </HomeList> */}
+  </Container>
+);
 }

@@ -16,7 +16,11 @@ export const api = axios.create({
 // }
 
 export async function getTrendingOfWeek() {
-    const res = await api.get(`/trending/all/week?api_key=${API}&language=${LANG}`)
-    const data = res.data.results;
-    return data;
+    try {
+        const res = await api.get(`/trending/movie/week?api_key=${API}&language=${LANG}`)
+        const data = await res.data.results;
+        return data;
+    } catch (error) {
+        console.log('getTrendingOfWeek ' + error);
+    }
 }
