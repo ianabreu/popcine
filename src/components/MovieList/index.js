@@ -3,27 +3,26 @@ import { FlatList, TouchableOpacity } from 'react-native';
 
 import { MovieRow, SectionTitle, Capa } from './styles';
 
-function MovieList({ data }) {
+export default function MovieList({ data }) {
   return (
     <MovieRow>
       <SectionTitle>{data.title}</SectionTitle>
       <FlatList
         horizontal
-        data={data.itens}
+        data={data.items}
         keyExtractor={(item) => String(item.id)}
-        renderItem={({ item }) => <FilmeUnico filme={item} />}
+        renderItem={({ item }) => (<Movie movie={item} />)}
       />
     </MovieRow>
   );
 }
-export default MovieList;
 
 /*---------------Componente Horizontal-------------------------*/
-export function FilmeUnico({ filme }) {
+export function Movie({ movie }) {
   return (
-    <TouchableOpacity onPress={()=> alert(`clicou em ${filme.title} com o id ${filme.id}`)}>
+    <TouchableOpacity activeOpacity={0.9} onPress={()=> alert(`clicou em ${movie.title || movie.original_title || movie.original_name} com o id ${movie.id}`)}>
       <Capa
-      source={{ uri: `https://image.tmdb.org/t/p/w500/${filme.poster_path}` }}
+      source={{ uri: `https://image.tmdb.org/t/p/w500/${movie.poster_path}` }}
       />
     </TouchableOpacity>
   );

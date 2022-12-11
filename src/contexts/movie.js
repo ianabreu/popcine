@@ -1,9 +1,11 @@
 import React, { useState, useEffect, createContext } from "react";
-import { getTrendingOfWeek } from '../services/api';
+import { getTrendingOfWeek, HomeData } from '../services/api';
+
 
 export const MovieContext = createContext({});
 export default function MovieProvider({ children }) {
     const [trendingMovie, setTrendingMovie] = useState({});
+    const [movies, setMovies] = useState([]);
     useEffect(() => {
         async function handleTrendingOfWeek() {
             const response = await getTrendingOfWeek();
@@ -12,8 +14,19 @@ export default function MovieProvider({ children }) {
         }
         handleTrendingOfWeek();
     },[])
+
+    useEffect(() => {
+        async function loadMovies() {
+            const response = await HomeData();
+            setMovies(response);
+          }
+          loadMovies();
+    }, [])
+
+
+
     return (
-        <MovieContext.Provider value={{trendingMovie}}>
+        <MovieContext.Provider value={{trendingMovie, movies}}>
             {children}
         </MovieContext.Provider>
     );

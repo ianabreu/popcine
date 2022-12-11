@@ -8,6 +8,8 @@ justify-content: space-between;
 align-items: center;
 height: 50px;
 margin: 20px 0 10px 0;
+padding-left: 10px;
+padding-right: 10px;
 `; 
 
 export const Logo = styled.Image.attrs({

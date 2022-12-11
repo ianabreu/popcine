@@ -1,7 +1,7 @@
 import styled from "styled-components/native";
 
 export const MovieRow = styled.View`
-
+background-color: '#101210';
 `;
 
 export const SectionTitle = styled.Text`
