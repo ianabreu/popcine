@@ -1,7 +1,8 @@
 import axios from "axios";
+import { API_BASE_URL, API_KEY } from '@env';
 
-const BASE_URL = 'https://api.themoviedb.org/3';
-const API = '556c8f56393b28d3b8de0f0ca7e1a4d1';
+const BASE_URL = API_BASE_URL;
+const API = API_KEY;
 const LANG = 'pt-br';
 
 export const api = axios.create({
