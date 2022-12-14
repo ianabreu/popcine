@@ -1,29 +1,20 @@
 import React from 'react';
-import { FlatList, TouchableOpacity } from 'react-native';
+import { FlatList } from 'react-native';
+import { MovieRow, SectionTitle } from './styles';
 
-import { MovieRow, SectionTitle, Capa } from './styles';
+import MovieButton from '../MovieButton';
 
 export default function MovieList({ data }) {
   return (
     <MovieRow>
       <SectionTitle>{data.title}</SectionTitle>
       <FlatList
+        showsHorizontalScrollIndicator={false}
         horizontal
         data={data.items}
         keyExtractor={(item) => String(item.id)}
-        renderItem={({ item }) => (<Movie movie={item} />)}
+        renderItem={({ item }) => (<MovieButton movie={item} />)}
       />
     </MovieRow>
-  );
-}
-
-/*---------------Componente Horizontal-------------------------*/
-export function Movie({ movie }) {
-  return (
-    <TouchableOpacity activeOpacity={0.9} onPress={()=> alert(`clicou em ${movie.title || movie.original_title || movie.original_name} com o id ${movie.id}`)}>
-      <Capa
-      source={{ uri: `https://image.tmdb.org/t/p/w500/${movie.poster_path}` }}
-      />
-    </TouchableOpacity>
   );
 }

@@ -7,8 +7,8 @@ flex: 1;
 background-color: #101210;
 `;
 
-export const HomeList = styled.ScrollView`
-flex: 0.3;
+export const HomeList = styled.View`
+margin-bottom: 15%;
 `;
 
 

@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import { View, ImageBackground } from 'react-native';
+import React from 'react';
+import { View } from 'react-native';
 import {
     Container,
     Title,
-    StarsArea,
-    Star,
     ReleaseDate,
     Sinopse,
     SinopseText,
