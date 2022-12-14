@@ -3,20 +3,20 @@ import {Text} from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import Home from '../pages/Home';
+import StackRoutes from './stack.routes';
 import Search from '../pages/Search';
 import Archive from '../pages/Archive';
 import Favorites from '../pages/Favorites';
 
 const AppTab = createBottomTabNavigator();
 
-export default function AppRoutes() {
+export default function TabRoutes() {
     return (
         <AppTab.Navigator
             screenOptions={({ route }) => ({
                 tabBarIcon: ({ focused, color, size }) => {
                     let iconName;
-                    if (route.name === "Home") {
+                    if (route.name === "HomeStack") {
                         iconName = focused ? 'home' : 'home-outline';
                     } else if (route.name === 'Search') {
                         iconName = focused ? 'search' : 'search-outline';
@@ -45,7 +45,7 @@ export default function AppRoutes() {
             })}
             initialRouteName='Home'
         >
-            <AppTab.Screen component={Home} name={'Home'} />
+            <AppTab.Screen component={StackRoutes} name={'HomeStack'} />
             <AppTab.Screen component={Search} name={'Search'} />
             <AppTab.Screen component={Archive} name={'Archive'} />
             <AppTab.Screen component={Favorites} name={'Favorites'} />

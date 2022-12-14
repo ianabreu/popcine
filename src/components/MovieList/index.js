@@ -4,7 +4,7 @@ import { MovieRow, SectionTitle } from './styles';
 
 import MovieButton from '../MovieButton';
 
-export default function MovieList({ data }) {
+export default function MovieList({ data, handleGoToDetails}) {
   return (
     <MovieRow>
       <SectionTitle>{data.title}</SectionTitle>
@@ -13,7 +13,7 @@ export default function MovieList({ data }) {
         horizontal
         data={data.items}
         keyExtractor={(item) => String(item.id)}
-        renderItem={({ item }) => (<MovieButton movie={item} />)}
+        renderItem={({ item }) => (<MovieButton movie={item} goToDetails={handleGoToDetails} />)}
       />
     </MovieRow>
   );

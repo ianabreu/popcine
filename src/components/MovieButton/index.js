@@ -2,9 +2,10 @@ import React from 'react';
 import {TouchableOpacity} from 'react-native';
 import styled from 'styled-components/native';
 
-export default function MovieButton({ movie }) {
+export default function MovieButton({ movie, goToDetails }) {
+
     return (
-        <TouchableOpacity activeOpacity={0.9} onPress={() =>{}}>
+        <TouchableOpacity activeOpacity={0.9} onPress={() =>{goToDetails(movie)}}>
             <Capa
                 source={{ uri: `https://image.tmdb.org/t/p/w200/${movie.poster_path}` }}
             />

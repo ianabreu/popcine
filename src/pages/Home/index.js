@@ -9,10 +9,18 @@ import { MovieContext } from '../../contexts/movie';
 import TrendingMovie from '../../components/TrendingMovie';
 import Header from '../../components/Header';
 import MovieList from '../../components/MovieList';
+import { useNavigation } from '@react-navigation/native'; 
 
 export default function Home() {
   const { trendingMovie, movies } = useContext(MovieContext);
   const { width, height } = Dimensions.get('screen')
+  function openDetails(movieInfo) {
+    navigation.navigate('Details', {
+        params: movieInfo
+    })
+}
+    const navigation = useNavigation();
+
   return (
     <Container showsVerticalScrollIndicator={false}>
       <Header />
@@ -31,7 +39,7 @@ export default function Home() {
       <TrendingMovie data={trendingMovie} />
       {<HomeList>
         {movies.map((item, key) => (
-          <MovieList key={key} data={item} />
+          <MovieList key={key} data={item} handleGoToDetails={openDetails} />
         ))}
       </HomeList>}
 
