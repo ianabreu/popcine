@@ -64,11 +64,24 @@ export async function HomeData() {
             title: 'Romance',
             items: await apiGet(`/discover/movie?with_genres=10749&language=${LANG}&api_key=${API}`)
         },
-        {
-            id: '7',
-            slug: 'documentary',
-            title: 'Documentários',
-            items: await apiGet(`/discover/movie?with_genres=99&language=${LANG}&api_key=${API}`)
-        },
     ];
+}
+
+export async function getUniqueTv(id) {
+    try {
+        const res = await api.get(`/tv/${id}?language=${LANG}&api_key=${API}`)
+        return res.data;
+    } catch (error) {
+        console.log(error);
+        
+    }
+}
+export async function getUniqueMovie(id) {
+    try {
+        const res = await api.get(`/movie/${id}?language=${LANG}&api_key=${API}`)
+        return res.data;
+    } catch (error) {
+        console.log(error);
+        
+    }
 }

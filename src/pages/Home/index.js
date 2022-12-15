@@ -12,11 +12,17 @@ import MovieList from '../../components/MovieList';
 import { useNavigation } from '@react-navigation/native'; 
 
 export default function Home() {
-  const { trendingMovie, movies } = useContext(MovieContext);
+  const { trendingMovie, movies, getTvData, getMovieData} = useContext(MovieContext);
   const { width, height } = Dimensions.get('screen')
-  function openDetails(movieInfo) {
+  async function openDetails(data) {
+    let response;
+    if (data.media_type === 'tv'){
+      response = await getTvData(data.id);
+    } else {
+      response = await getMovieData(data.id);
+    } 
     navigation.navigate('Details', {
-        params: movieInfo
+        params: response
     })
 }
     const navigation = useNavigation();
