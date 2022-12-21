@@ -1,5 +1,5 @@
 import React, { useState, useEffect, createContext } from "react";
-import { getTrendingOfWeek, HomeData, getUniqueTv, getUniqueMovie } from '../services/api';
+import { getTrendingOfWeek, HomeData, getUniqueTv, getUniqueMovie, getSearchMovie } from '../services/api';
 
 
 export const MovieContext = createContext({});
@@ -32,10 +32,15 @@ export default function MovieProvider({ children }) {
         const response = await getUniqueMovie(id);
         return response;
     }
+    async function handleSearch(text) {
+        let formatedString = String(text.toLocaleLowerCase()).trim()
+        const results = getSearchMovie(formatedString);
+        return results;
+    }
 
 
     return (
-        <MovieContext.Provider value={{trendingMovie, movies, getTvData, getMovieData}}>
+        <MovieContext.Provider value={{trendingMovie, movies, getTvData, getMovieData, handleSearch}}>
             {children}
         </MovieContext.Provider>
     );

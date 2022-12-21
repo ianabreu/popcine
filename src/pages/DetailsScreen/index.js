@@ -23,7 +23,6 @@ export default function DetailsScreen({ route }) {
     const day = arrayDate[2];
     return `${day}/${month}/${year}`;
   }
-  console.log(data.genres)
 
   return (
     <Container>
@@ -55,7 +54,11 @@ export default function DetailsScreen({ route }) {
           </View>
         </View>
         <TitleOverview>Sinopse:</TitleOverview>
-        <Overview>{data.overview}</Overview>
+        <Overview>
+          {data.overview === '' ? 'Não temos uma sinopse em Português do Brasil.'
+            :
+            data.overview}
+        </Overview>
 
         <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', marginBottom: 60 }}>
           <WatchButton>

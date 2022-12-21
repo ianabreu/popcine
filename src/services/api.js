@@ -32,7 +32,7 @@ export async function HomeData() {
             id: '1',
             slug: 'trending',
             title: 'Recomendados para você',
-            items: await apiGet(`/trending/all/week?language=${LANG}&api_key=${API}`)
+            items: await apiGet(`/trending/movie/week?language=${LANG}&api_key=${API}`)
         },
         {
             id: '2',
@@ -84,4 +84,9 @@ export async function getUniqueMovie(id) {
         console.log(error);
         
     }
+}
+export async function getSearchMovie(query) {
+    const res = await api.get(`/search/movie?language=${LANG}&api_key=${API}&query=${query}&page=1`)
+    return res.data.results;
+    
 }

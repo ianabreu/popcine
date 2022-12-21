@@ -15,8 +15,8 @@ export default function MovieButton({ movie, goToDetails }) {
 
 
 export const Capa = styled.Image`
-width: 150px;
-height: 225px;
+width: 114px;
+height: 170px;
 border-radius: 7px;
 margin: 5px;
 `;

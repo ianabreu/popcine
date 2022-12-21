@@ -1,11 +1,9 @@
 import React from 'react';
-import {Text} from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import StackRoutes from './stack.routes';
+import {HomeRoutes, SearchRoutes} from './stack.routes';
 import Search from '../pages/Search';
-import Archive from '../pages/Archive';
 import Favorites from '../pages/Favorites';
 
 const AppTab = createBottomTabNavigator();
@@ -18,10 +16,8 @@ export default function TabRoutes() {
                     let iconName;
                     if (route.name === "HomeStack") {
                         iconName = focused ? 'home' : 'home-outline';
-                    } else if (route.name === 'Search') {
+                    } else if (route.name === 'SearchStack') {
                         iconName = focused ? 'search' : 'search-outline';
-                    } else if (route.name === 'Archive') {
-                        iconName = focused ? 'folder' : 'folder-outline';
                     } else if (route.name === 'Favorites') {
                         iconName = focused ? 'heart' : 'heart-outline';
                     }
@@ -45,9 +41,8 @@ export default function TabRoutes() {
             })}
             initialRouteName='Home'
         >
-            <AppTab.Screen component={StackRoutes} name={'HomeStack'} />
-            <AppTab.Screen component={Search} name={'Search'} />
-            <AppTab.Screen component={Archive} name={'Archive'} />
+            <AppTab.Screen component={HomeRoutes} name={'HomeStack'} />
+            <AppTab.Screen component={SearchRoutes} name={'SearchStack'} />
             <AppTab.Screen component={Favorites} name={'Favorites'} />
         </AppTab.Navigator>
     );
