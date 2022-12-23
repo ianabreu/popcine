@@ -1,6 +1,5 @@
 import styled from "styled-components/native";
 import PopCine from '../../assets/logo.png';
-import Feather from 'react-native-vector-icons/Feather';
 
 export const HeaderContainer = styled.View`
 flex-direction: row;
@@ -19,10 +18,3 @@ export const Logo = styled.Image.attrs({
 width: 120px;
 height: 30px;
 `;
-
-export const User = styled(Feather).attrs({
-    name: 'user',
-    size: 30,
-})`
-color: #31D618;
-`

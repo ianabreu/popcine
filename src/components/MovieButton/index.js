@@ -7,8 +7,9 @@ export default function MovieButton({ movie, goToDetails }) {
     return (
         <TouchableOpacity activeOpacity={0.9} onPress={() =>{goToDetails(movie)}}>
             <Capa
-                source={{ uri: movie.poster_path ? `https://image.tmdb.org/t/p/w200/${movie.poster_path}` :
-                'https://spassodourado.com.br/wp-content/uploads/2015/01/default-placeholder.png' }}
+                source={movie.poster_path ? {uri: `https://image.tmdb.org/t/p/w200/${movie.poster_path}` }
+                :
+                require('../../assets/poster_default.jpg')}
             />
         </TouchableOpacity>
     );

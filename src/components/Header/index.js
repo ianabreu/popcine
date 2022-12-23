@@ -1,16 +1,12 @@
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
-import {
-    HeaderContainer, Logo, User
-} from './styles';
+import { HeaderContainer, Logo } from './styles';
+import UserButton from '../UserButton';
 
 export default function Header() {
     return (
         <HeaderContainer>
             <Logo />
-            <TouchableOpacity>
-                <User />
-            </TouchableOpacity>
+            <UserButton />
         </HeaderContainer>
     );
 }

@@ -44,11 +44,11 @@ export default function DetailsScreen({ route }) {
 
         <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' }}>
           <View style={{ flex: 0.8 }}>
-            <Capa source={{ uri: data.poster_path != null ?
-             `https://image.tmdb.org/t/p/w500/${data.poster_path}`
+            <Capa source={data.poster_path != null ? {uri: `https://image.tmdb.org/t/p/w500/${data.poster_path}`}
             :
-            'https://spassodourado.com.br/wp-content/uploads/2015/01/default-placeholder.png'
-            }} />
+            require('../../assets/poster_default.jpg')
+            }
+            />
           </View>
 
           <View style={{ justifyContent: 'flex-start', alignItems: 'center', flex: 1 }}>
