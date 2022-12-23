@@ -65,3 +65,5 @@ buck-out/
 
 # Environment Variables
 .env
+# Firebase Credentials
+google-services.json
