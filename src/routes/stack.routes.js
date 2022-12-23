@@ -4,7 +4,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Home from '../pages/Home';
 import Search from '../pages/Search';
 import Details from '../pages/DetailsScreen';
-import SignIn from '../pages/SignIn';
+import SignIn from '../pages/Login/SignIn';
+import SignUp from '../pages/Login/SignUp';
 import CustomBackHeader from '../components/Header/CustomBackHeader';
 
 const Stack = createNativeStackNavigator();
@@ -16,7 +17,7 @@ export function HomeRoutes() {
         component={Home}
         options={{ headerShown: false }}
       />
-      
+
       <Stack.Screen
         name='Details'
         component={Details}
@@ -28,21 +29,34 @@ export function HomeRoutes() {
           headerRight: (props) => <CustomBackHeader {...props} />,
           animation: 'slide_from_right',
         }}
-        />
+      />
 
-        <Stack.Screen
-          name='SignIn'
-          component={SignIn}
-          options={{
-            headerTitle: 'Login',
-            headerStyle: { 
-              backgroundColor: '#101210',
-            },
-            headerTintColor: '#FFF',
-            
-            
-            }}
+      <Stack.Screen
+        name='SignIn'
+        component={SignIn}
+        options={{
+          headerTitle: 'Login',
+          headerStyle: {
+            backgroundColor: '#101210',
+          },
+          headerTintColor: '#FFF',
+          animation:'slide_from_right',
+          
+        }}
         />
+      <Stack.Screen
+        name='SignUp'
+        component={SignUp}
+        options={{ 
+
+          headerTitle: 'Cadastro',
+          headerStyle: {
+            backgroundColor: '#101210',
+          },
+          headerTintColor: '#FFF',
+          animation:'slide_from_right',
+        }}
+      />
     </Stack.Navigator>
   );
 }
@@ -54,7 +68,7 @@ export function SearchRoutes() {
         component={Search}
         options={{ headerShown: false }}
       />
-      
+
       <Stack.Screen
         name='Details'
         component={Details}

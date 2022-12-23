@@ -3,7 +3,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import {HomeRoutes, SearchRoutes} from './stack.routes';
-import Search from '../pages/Search';
 import Favorites from '../pages/Favorites';
 
 const AppTab = createBottomTabNavigator();
