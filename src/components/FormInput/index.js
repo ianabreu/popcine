@@ -37,6 +37,5 @@ const styles = StyleSheet.create({
         height: 45,
         padding: 10,
         marginBottom: 20,
-
-    }
+    },
 })

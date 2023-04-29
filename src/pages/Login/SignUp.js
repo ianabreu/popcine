@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
-import { Image, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import React, { useState, useContext } from 'react';
+import { Alert, Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { Background, Container, AreaForm, Logo, BtnArea, BtnText, BtnArea2, BtnText2 } from './styles';
 import FormInput from '../../components/FormInput';
 import { useNavigation } from '@react-navigation/native';
+
+import { AuthContext } from '../../contexts/auth';
 
 export default function SignUp() {
   const navigation = useNavigation();
@@ -10,6 +12,24 @@ export default function SignUp() {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const { signUp } = useContext(AuthContext);
+    
+  function handleSignUp(name, email, password) {
+    if (name === '') return alert('nome');
+    if (email === '') return alert('email');
+    if (password === '') return alert('senha');
+    signUp(name, email, password)
+  }
+
+  function alert(typeMessage) {
+    Alert.alert(
+      'Campo Inválido',
+      `Nescessário preencher o campo ${typeMessage}.`,
+      [
+        {text: 'OK', onPress: () => {}},
+      ])
+  }
 
   return (
     <Background>
@@ -22,8 +42,8 @@ export default function SignUp() {
             placeholder='Digite seu nome'
             type='name'
             value={name}
-            onChangeText={(text) => setName(text)}
-          />
+            onChangeText={(text) => setName(text)}            
+            />
 
           <FormInput
             label='E-mail'
@@ -41,7 +61,7 @@ export default function SignUp() {
             onChangeText={(text) => setPassword(text)}
           />
 
-          <BtnArea>
+          <BtnArea onPress={() => handleSignUp(name, email, password)}>
             <BtnText>Cadastrar</BtnText>
           </BtnArea>
 
