@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { Alert } from 'react-native';
+import { ActivityIndicator, Alert, Keyboard } from 'react-native';
 import { Background, Container, AreaForm, Logo, BtnArea, BtnText, BtnArea2, BtnText2 } from './styles';
 import FormInput from '../../components/FormInput';
 import { useNavigation } from '@react-navigation/native';
@@ -13,14 +13,21 @@ export default function SignUp() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const { signUp, } = useContext(AuthContext);
-    
+  const { loading, signUp, } = useContext(AuthContext);
+
   async function handleSignUp(name, email, password) {
     if (name === '') return alert('nome');
     if (email === '') return alert('email');
     if (password === '') return alert('senha');
-    
+
     await signUp(name, email, password);
+
+    setName('');
+    setEmail('');
+    setPassword('');
+    Keyboard.dismiss();
+    navigation.navigate('Favorites');
+
   }
 
   function alert(typeMessage) {
@@ -28,14 +35,14 @@ export default function SignUp() {
       'Campo Inválido',
       `Nescessário preencher o campo ${typeMessage}.`,
       [
-        {text: 'OK', onPress: () => {}},
+        { text: 'OK', onPress: () => { } },
       ])
   }
 
   return (
     <Background>
       <Container>
-          <Logo source={require('../../assets/logo-login.png')}/>
+        <Logo source={require('../../assets/logo-login.png')} />
         <AreaForm>
 
           <FormInput
@@ -43,8 +50,8 @@ export default function SignUp() {
             placeholder='Digite seu nome'
             type='name'
             value={name}
-            onChangeText={(text) => setName(text)}            
-            />
+            onChangeText={(text) => setName(text)}
+          />
 
           <FormInput
             label='E-mail'
@@ -63,7 +70,10 @@ export default function SignUp() {
           />
 
           <BtnArea onPress={() => handleSignUp(name, email, password)}>
-            <BtnText>Cadastrar</BtnText>
+            {loading ?
+              <ActivityIndicator color={'#FFF'} size={30} /> :
+              <BtnText>Cadastrar</BtnText>
+            }
           </BtnArea>
 
           <BtnArea2 onPress={() => navigation.goBack()}>

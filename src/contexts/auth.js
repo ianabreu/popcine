@@ -7,38 +7,69 @@ export const AuthContext = createContext({});
 
 export default function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(false);
 
     async function signUp(name, email, password) {
+        setLoading(true);
+
         await auth()
             .createUserWithEmailAndPassword(email, password)
-            .then( async (userCredential) => {
+            .then(async (userCredential) => {
+                const update = {
+                    displayName: name,
+                };
+                await auth().currentUser.updateProfile(update);
+
                 let uid = userCredential.user.uid
                 await firestore().collection('users').doc(uid).set({
                     name: name,
                     favorites: [],
                 })
-                .then(() => {
-                    let data = {
-                        uid: uid,
-                        name: name,
-                        email: userCredential.user.email
-                    }
-                    setUser(data);
-                }).catch((error)=> {
-                    console.log(error);
-                }) 
+                    .then(() => {
+                        let data = {
+                            uid: uid,
+                            name: name,
+                            email: userCredential.user.email
+                        }
+                        setUser(data);
+                    }).catch((error) => {
+                        console.log(error);
+                    })
 
             })
             .catch((error) => {
                 console.log(error);
             })
-
+        setLoading(false);
     }
+
+    async function signIn(email, password) {
+        setLoading(true);
+
+        await auth()
+            .signInWithEmailAndPassword(email, password)
+            .then(async (userCredential) => {
+                let uid = userCredential.user.uid
+                const userData = await firestore().collection('users').doc(uid).get();
+                userData.exists ? setUser(userData.data()) : setUser(null);
+            })
+            .catch((error) => {
+                console.log(error);
+            })
+            
+        setLoading(false);
+    }
+
+
     return (
         <AuthContext.Provider value={{
+            signed: !!user,
+            user,
+            loading,
             signUp,
-            
-            }}>
+            signIn,
+
+        }}>
             {children}
         </AuthContext.Provider>
     )
