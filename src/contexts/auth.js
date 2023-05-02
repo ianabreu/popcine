@@ -1,4 +1,5 @@
 import React, { useState, createContext, useEffect } from "react";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
@@ -8,6 +9,18 @@ export const AuthContext = createContext({});
 export default function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        async function loadStorage() {
+            try {
+                const data = await AsyncStorage.getItem('@user')
+                data !== null && setUser(JSON.parse(data));
+              } catch(err) {
+                console.log(err)
+              }
+        }
+        loadStorage();
+    })
 
     async function signUp(name, email, password) {
         setLoading(true);
@@ -51,13 +64,30 @@ export default function AuthProvider({ children }) {
             .then(async (userCredential) => {
                 let uid = userCredential.user.uid
                 const userData = await firestore().collection('users').doc(uid).get();
-                userData.exists ? setUser(userData.data()) : setUser(null);
+                
+                let data = {
+                    uid: uid,
+                    name: userData.data().name,
+                    favorites: userData.data().favorites
+                }
+                storageUser(data);
+                setUser(data);
             })
             .catch((error) => {
                 console.log(error);
             })
-            
+
         setLoading(false);
+    }
+
+    async function storageUser(data) {
+        try {
+            const jsonData = JSON.stringify(data);
+            await AsyncStorage.setItem('@user', jsonData)
+            
+        } catch (error) {
+            console.log(error);
+        }
     }
 
 
