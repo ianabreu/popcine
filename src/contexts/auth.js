@@ -15,7 +15,8 @@ export default function AuthProvider({ children }) {
             try {
                 const data = await AsyncStorage.getItem('@user')
                 data !== null && setUser(JSON.parse(data));
-              } catch(err) {
+              } 
+              catch(err) {
                 console.log(err)
               }
         }
@@ -42,10 +43,13 @@ export default function AuthProvider({ children }) {
                         let data = {
                             uid: uid,
                             name: name,
-                            email: userCredential.user.email
+                            email: userCredential.user.email,
+                            favorites: [],
                         }
+                        storageUser(data);
                         setUser(data);
-                    }).catch((error) => {
+                    })
+                    .catch((error) => {
                         console.log(error);
                     })
 
@@ -68,6 +72,7 @@ export default function AuthProvider({ children }) {
                 let data = {
                     uid: uid,
                     name: userData.data().name,
+                    email: userCredential.user.email,
                     favorites: userData.data().favorites
                 }
                 storageUser(data);

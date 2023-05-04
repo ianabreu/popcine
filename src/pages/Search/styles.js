@@ -50,5 +50,5 @@ export const ResultArea = styled.View`
 flex: 1;
 padding-top: 10px;
 padding-bottom: 50px;
-
+align-items: center;
 `;
