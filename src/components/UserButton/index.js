@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import styled from "styled-components/native";
 import Feather from 'react-native-vector-icons/Feather';
+import { AuthContext } from '../../contexts/auth';
 
 export default function UserButton() {
-    const navigation = useNavigation();
+    const {hasUser} = useContext(AuthContext);
+
     return (
-        <TouchableOpacity onPress={() => {navigation.navigate('SignIn')}}>
+        <TouchableOpacity onPress={ () => hasUser() }>
             <User />
         </TouchableOpacity>
     );

@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { FlatList, Text, View } from 'react-native';
+import { FlatList } from 'react-native';
 import { Container, FavoritesArea, Title } from './styles';
 
 import { AuthContext } from '../../contexts/auth';

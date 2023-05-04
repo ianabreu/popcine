@@ -6,9 +6,11 @@ import Search from '../pages/Search';
 import Details from '../pages/DetailsScreen';
 import SignIn from '../pages/Login/SignIn';
 import SignUp from '../pages/Login/SignUp';
+import Profile from '../pages/Profile';
 import CustomBackHeader from '../components/Header/CustomBackHeader';
 
 const Stack = createNativeStackNavigator();
+
 export function HomeRoutes() {
   return (
     <Stack.Navigator>
@@ -40,23 +42,39 @@ export function HomeRoutes() {
             backgroundColor: '#101210',
           },
           headerTintColor: '#FFF',
-          animation:'slide_from_right',
-          
+          animation: 'slide_from_right',
+
         }}
-        />
+      />
       <Stack.Screen
         name='SignUp'
         component={SignUp}
-        options={{ 
+        options={{
 
           headerTitle: 'Cadastro',
           headerStyle: {
             backgroundColor: '#101210',
           },
           headerTintColor: '#FFF',
-          animation:'slide_from_right',
+          animation: 'slide_from_right',
         }}
       />
+
+      <Stack.Screen
+        name='Profile'
+        component={Profile}
+        options={{
+
+          headerTitle: 'Perfil',
+          headerStyle: {
+            backgroundColor: '#101210',
+          },
+          headerTintColor: '#FFF',
+          animation: 'slide_from_bottom',
+        }}
+      />
+
+
     </Stack.Navigator>
   );
 }

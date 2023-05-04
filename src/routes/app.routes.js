@@ -1,18 +1,14 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
-import { AuthContext } from '../contexts/auth';
 
 import { HomeRoutes, SearchRoutes } from './stack.routes';
 import Favorites from '../pages/Favorites';
-import SignIn from '../pages/Login/SignIn';
 
 const AppTab = createBottomTabNavigator();
 
 export default function TabRoutes() {
-    const { signed } = useContext(AuthContext);
-
     return (
         <AppTab.Navigator
             screenOptions={({ route }) => ({
@@ -47,9 +43,7 @@ export default function TabRoutes() {
         >
             <AppTab.Screen component={HomeRoutes} name={'HomeStack'} />
             <AppTab.Screen component={SearchRoutes} name={'SearchStack'} />
-            <AppTab.Screen
-                component={signed ? Favorites : SignIn}
-                name={'Favorites'}
+            <AppTab.Screen component={Favorites} name={'Favorites'}
             />
         </AppTab.Navigator>
     );

@@ -3,12 +3,15 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import auth from '@react-native-firebase/auth';
 import firestore from '@react-native-firebase/firestore';
+import { useNavigation } from "@react-navigation/native";
 
 export const AuthContext = createContext({});
 
 export default function AuthProvider({ children }) {
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(false);
+    const navigation = useNavigation();
+
 
     useEffect(() => {
         async function loadStorage() {
@@ -22,6 +25,14 @@ export default function AuthProvider({ children }) {
         }
         loadStorage();
     })
+
+    async function hasUser() {
+        if (auth().currentUser) {
+            navigation.navigate('Profile')
+        } else {
+            navigation.navigate('SignIn')
+        }
+    }
 
     async function signUp(name, email, password) {
         setLoading(true);
@@ -103,6 +114,7 @@ export default function AuthProvider({ children }) {
             loading,
             signUp,
             signIn,
+            hasUser,
 
         }}>
             {children}
