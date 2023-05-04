@@ -105,6 +105,13 @@ export default function AuthProvider({ children }) {
             console.log(error);
         }
     }
+    async function signOut() {
+        await auth().signOut()
+        .then(() => {
+            AsyncStorage.clear();
+            setUser(null);
+        })        
+    }
 
 
     return (
@@ -114,6 +121,7 @@ export default function AuthProvider({ children }) {
             loading,
             signUp,
             signIn,
+            signOut,
             hasUser,
 
         }}>
