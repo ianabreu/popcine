@@ -16,7 +16,7 @@ font-weight: bold;
 export const ReleaseDate = styled.Text`
 color: #FFF;
 font-size: 15px;
-font-weight: 100;
+font-weight: 300;
 `;
 
 export const Sinopse = styled.Text`

@@ -1,20 +1,18 @@
 import styled from "styled-components/native";
 
-export const Background = styled.SafeAreaView`
+export const Background = styled.View`
 flex: 1;
 background-color: #101210;
 `;
 export const Container = styled.KeyboardAvoidingView`
 flex: 1;
 align-items: center;
-justify-content: flex-start;
+justify-content: center;
 `;
 export const Logo = styled.Image`
-
 `;
 export const AreaForm = styled.View`
 width: 90%;
-
 `;
 export const BtnArea = styled.TouchableOpacity`
 background-color: #D22730;
@@ -31,8 +29,8 @@ font-weight: bold;
 `;
 
 export const BtnArea2 = styled.TouchableOpacity`
-margin-top: 20px;
 align-items: center;
+margin-bottom: 30px;
 `;
 
 export const BtnText2 = styled.Text`

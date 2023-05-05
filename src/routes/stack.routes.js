@@ -5,7 +5,6 @@ import Home from '../pages/Home';
 import Search from '../pages/Search';
 import Details from '../pages/DetailsScreen';
 import SignIn from '../pages/Login/SignIn';
-import SignUp from '../pages/Login/SignUp';
 import Profile from '../pages/Profile';
 import CustomBackHeader from '../components/Header/CustomBackHeader';
 
@@ -46,19 +45,6 @@ export function HomeRoutes() {
 
         }}
       />
-      <Stack.Screen
-        name='SignUp'
-        component={SignUp}
-        options={{
-
-          headerTitle: 'Cadastro',
-          headerStyle: {
-            backgroundColor: '#101210',
-          },
-          headerTintColor: '#FFF',
-          animation: 'slide_from_right',
-        }}
-      />
 
       <Stack.Screen
         name='Profile'
@@ -70,7 +56,7 @@ export function HomeRoutes() {
             backgroundColor: '#101210',
           },
           headerTintColor: '#FFF',
-          animation: 'slide_from_bottom',
+          animation: 'slide_from_right',
         }}
       />
 

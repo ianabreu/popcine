@@ -39,7 +39,8 @@ padding: 5px;
 margin: 30px 0px;
 `; 
 export const ButtonText = styled.Text`
-font-size: 18px;
+font-size: 20px;
 font-weight: bold;
 color: #FFF;
+padding-right: 5px;
 `;

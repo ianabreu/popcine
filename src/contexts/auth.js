@@ -106,11 +106,13 @@ export default function AuthProvider({ children }) {
         }
     }
     async function signOut() {
+        setLoading(true);
         await auth().signOut()
         .then(() => {
             AsyncStorage.clear();
             setUser(null);
         })        
+        setLoading(false);
     }
 
 

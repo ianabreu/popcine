@@ -22,7 +22,7 @@ export const Genres = styled.Text`
 text-align: center;
 color: #FFF;
 font-size: 14px;
-font-weight: 100;
+font-weight: 300;
 `;
 export const DetailTwin = styled.Text`
 text-align: center;

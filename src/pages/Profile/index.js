@@ -9,9 +9,17 @@ import {
   Button,
   ButtonText,
 } from './styles';
+import { useNavigation } from '@react-navigation/native';
+import { ActivityIndicator } from 'react-native';
 
 export default function Profile() {
-  const { user, signOut } = useContext(AuthContext);
+  const navigation = useNavigation()
+  const { user, signOut, loading } = useContext(AuthContext);
+  async function handleSignOut() {
+
+    await signOut();
+    navigation.goBack();
+  }
 
   return (
     <Container>
@@ -37,13 +45,19 @@ export default function Profile() {
       <Input value={user?.email}
         editable={false} />
 
-      <Button onPress={() => signOut()}>
-        <ButtonText>Sair</ButtonText>
-        <Icon
-          name='exit-to-app'
-          size={30}
-          color='#FFF'
-        />
+      <Button onPress={() => handleSignOut()}>
+        {loading ? (<ActivityIndicator color={'#FFF'} size={30}/>) :
+          (
+            <>
+              <ButtonText>Sair</ButtonText>
+              <Icon
+                name='exit-to-app'
+                size={30}
+                color='#FFF'
+              />
+            </>
+          )
+        }
       </Button>
 
     </Container>

@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { FlatList } from 'react-native';
+import { FlatList, Keyboard } from 'react-native';
 import { Container, InputArea, Input, SearchButton, Icon, ResultArea } from './styles';
 
 import Header from '../../components/Header';
@@ -16,9 +16,10 @@ export default function Home() {
 
 
   async function searchList() {
-    if (searchText === '') return;
+    if (searchText === '') return Keyboard.dismiss();;
     const data = await handleSearch(searchText);
     setSearchResults(data);
+    Keyboard.dismiss();
 
   }
 

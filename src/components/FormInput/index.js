@@ -16,6 +16,7 @@ export default function FormInput(props) {
             keyboardType={props.type === 'email' ? 'email-address' : ''}
             onChangeText={props.onChangeText}
             value={props.value}
+            returnKeyType={props.returnKeyType}
             />
         </>
     );
@@ -25,8 +26,8 @@ const styles = StyleSheet.create({
     label: {
         color: '#FFF',
         fontSize: 20,
-        marginBottom: 10,
-        fontWeight: '100'
+        marginBottom: 5,
+        fontWeight: '300'
         
     },
     input: {
@@ -36,6 +37,6 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         height: 45,
         padding: 10,
-        marginBottom: 20,
+        marginBottom: 10,
     },
 })
