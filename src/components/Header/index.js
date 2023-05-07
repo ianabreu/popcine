@@ -2,11 +2,11 @@ import React from 'react';
 import { HeaderContainer, Logo } from './styles';
 import UserButton from '../UserButton';
 
-export default function Header() {
+export default function Header({isHome}) {
     return (
         <HeaderContainer>
             <Logo />
-            <UserButton />
+            {isHome && <UserButton />}
         </HeaderContainer>
     );
 }

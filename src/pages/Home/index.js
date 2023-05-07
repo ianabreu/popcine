@@ -29,7 +29,7 @@ export default function Home() {
 
   return (
     <Container showsVerticalScrollIndicator={false}>
-      <Header />
+      <Header isHome={true}/>
       <Image resizeMode="cover"
         source={{ uri: `https://www.themoviedb.org/t/p/w600_and_h900_bestv2${trendingMovie.poster_path}` }}
         style={{

@@ -47,7 +47,6 @@ export default function AuthProvider({ children }) {
 
                 let uid = userCredential.user.uid
                 await firestore().collection('users').doc(uid).set({
-                    name: name,
                     favorites: [],
                 })
                     .then(() => {
@@ -79,12 +78,11 @@ export default function AuthProvider({ children }) {
             .then(async (userCredential) => {
                 let uid = userCredential.user.uid
                 const userData = await firestore().collection('users').doc(uid).get();
-                
                 let data = {
                     uid: uid,
-                    name: userData.data().name,
+                    name: userCredential.user.displayName,
                     email: userCredential.user.email,
-                    favorites: userData.data().favorites
+                    favorites: userData.data().favorites,
                 }
                 storageUser(data);
                 setUser(data);
@@ -93,6 +91,25 @@ export default function AuthProvider({ children }) {
                 console.log(error);
             })
 
+        setLoading(false);
+    }
+    async function editUser(name) {
+        let userCredential = auth().currentUser;
+        if (userCredential.displayName === name) return;;
+        setLoading(true);
+        await auth().currentUser.updateProfile({ displayName: name})
+        .then( async () => {
+                const userName = auth().currentUser.displayName;
+                const userData = await firestore().collection('users').doc(userCredential.uid).get();
+                let data = {
+                    uid: userCredential.uid,
+                    name: userName,
+                    email: userCredential.email,
+                    favorites: userData.data().favorites,
+                }
+                    setUser(data);
+                    storageUser(data);
+        })
         setLoading(false);
     }
 
@@ -114,8 +131,6 @@ export default function AuthProvider({ children }) {
         })        
         setLoading(false);
     }
-
-
     return (
         <AuthContext.Provider value={{
             signed: !!user,
@@ -125,6 +140,7 @@ export default function AuthProvider({ children }) {
             signIn,
             signOut,
             hasUser,
+            editUser,
 
         }}>
             {children}
