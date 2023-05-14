@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
-import { HomeRoutes, SearchRoutes } from './stack.routes';
+import { HomeRoutes, SearchRoutes, FavoriteRoutes } from './stack.routes';
 import Favorites from '../pages/Favorites';
 
 const AppTab = createBottomTabNavigator();
@@ -18,7 +18,7 @@ export default function TabRoutes() {
                         iconName = focused ? 'home' : 'home-outline';
                     } else if (route.name === 'SearchStack') {
                         iconName = focused ? 'search' : 'search-outline';
-                    } else if (route.name === 'Favorites') {
+                    } else if (route.name === 'FavoriteStack') {
                         iconName = focused ? 'heart' : 'heart-outline';
                     }
                     return <Ionicons name={iconName} size={size} color={color} />;
@@ -43,7 +43,7 @@ export default function TabRoutes() {
         >
             <AppTab.Screen component={HomeRoutes} name={'HomeStack'} />
             <AppTab.Screen component={SearchRoutes} name={'SearchStack'} />
-            <AppTab.Screen component={Favorites} name={'Favorites'}
+            <AppTab.Screen component={FavoriteRoutes} name={'FavoriteStack'}
             />
         </AppTab.Navigator>
     );

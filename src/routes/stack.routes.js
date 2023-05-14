@@ -7,6 +7,7 @@ import Details from '../pages/DetailsScreen';
 import SignIn from '../pages/Login/SignIn';
 import Profile from '../pages/Profile';
 import CustomBackHeader from '../components/Header/CustomBackHeader';
+import Favorites from '../pages/Favorites';
 
 const Stack = createNativeStackNavigator();
 
@@ -70,6 +71,31 @@ export function SearchRoutes() {
       <Stack.Screen
         name='Search'
         component={Search}
+        options={{ headerShown: false }}
+      />
+
+      <Stack.Screen
+        name='Details'
+        component={Details}
+        options={{
+          headerTitle: 'Detalhes',
+          headerStyle: { backgroundColor: '#101210' },
+          headerTintColor: '#FFF',
+          headerTitleAlign: 'left',
+          headerRight: (props) => <CustomBackHeader {...props} />,
+          animation: 'slide_from_right',
+        }}
+      />
+
+    </Stack.Navigator>
+  );
+}
+export function FavoriteRoutes() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen
+        name='Favorites'
+        component={Favorites}
         options={{ headerShown: false }}
       />
 

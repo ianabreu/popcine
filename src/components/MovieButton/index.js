@@ -5,7 +5,7 @@ import styled from 'styled-components/native';
 export default function MovieButton({ movie, goToDetails }) {
 
     return (
-        <TouchableOpacity activeOpacity={0.9} onPress={() =>{goToDetails(movie)}}>
+        <TouchableOpacity activeOpacity={0.9} onPress={() =>{ goToDetails(movie) }}>
             <Capa
                 source={movie.poster_path ? {uri: `https://image.tmdb.org/t/p/w200/${movie.poster_path}` }
                 :

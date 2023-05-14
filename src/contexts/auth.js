@@ -28,22 +28,23 @@ export default function AuthProvider({ children }) {
         loadStorage();
     }, [])
 
-    useEffect(() => {
-        async function getFavorites() {
-            let list = [];
-            uid = auth().currentUser.uid
-            const docRef = firestore().collection('USERS').doc(uid).collection('FAVORITES');
-            await docRef.get()
-                .then((querySnapshot) => {
-                    querySnapshot.forEach((doc) => {
-                        list.push(doc.data())
-                    })
-                    setUserFavorites(list);
-                    storageFavorites(list);
-                })
-        }
+    useEffect(() => { 
         getFavorites();
     }, [])
+
+    async function getFavorites() {
+        let list = [];
+        uid = auth().currentUser.uid
+        const docRef = firestore().collection('USERS').doc(uid).collection('FAVORITES');
+        await docRef.get()
+            .then((querySnapshot) => {
+                querySnapshot.forEach((doc) => {
+                    list.push(doc.data())
+                })
+                setUserFavorites(list);
+                storageFavorites(list);
+            })
+    }
 
     useEffect(() => {
         async function loadFavorites() {
@@ -180,13 +181,14 @@ export default function AuthProvider({ children }) {
         if (((await docRef.get()).exists)) {
             await docRef.delete()
                 .then(() => {
-                    let arrayData = [...userFavorites]
                     if (user != null) {
-                        let newArray = arrayData.filter((item) => {
+                        let arrayData = userFavorites.filter((item) => {
                             String(item.id) != dataId
                         })
-                        setUserFavorites(newArray);
+                        storageFavorites(arrayData);
+                        setUserFavorites(arrayData);
                     }
+                    getFavorites()
                 })
         } else {
             await docRef.set(favorite)
@@ -195,6 +197,7 @@ export default function AuthProvider({ children }) {
                     if (user != null) {
                         arrayData.push(favorite);
                     }
+                    storageFavorites(arrayData);
                     setUserFavorites(arrayData);
                 });
         }

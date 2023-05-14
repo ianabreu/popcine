@@ -15,9 +15,11 @@ import {
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { AuthContext } from '../../contexts/auth';
 import StarsRate from '../../components/StarsRate';
+import { useIsFocused } from '@react-navigation/native';
 
 export default function DetailsScreen({ route }) {
   const { addToFavorites, userFavorites } = useContext(AuthContext);
+  const isFocused = useIsFocused();
 
   const [data, setData] = useState(route?.params?.params);
   const [isFavorite, setIsFavorite] = useState(false);
@@ -29,7 +31,7 @@ export default function DetailsScreen({ route }) {
       setIsFavorite(isInclude);
     }
     isAlreadyFavorite(data.id)
-  }, [])
+  }, [isFocused])
 
   const convertMinutesInHours = (minuts) => {
     const hours = Math.floor(minuts / 60);
