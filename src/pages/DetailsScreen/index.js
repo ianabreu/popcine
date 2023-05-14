@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Dimensions, Image, ScrollView, View } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { Dimensions, Image, Pressable, ScrollView, View } from 'react-native';
 import {
   Container,
   Title,
@@ -7,18 +7,29 @@ import {
   Capa,
   Overview,
   DetailTwin,
-  TitleOverview, 
-  WatchButton, 
-  WatchText, 
-  Play, 
-  Heart
+  TitleOverview,
+  WatchButton,
+  WatchText,
+  Play,
 } from './styles';
-
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import { AuthContext } from '../../contexts/auth';
 import StarsRate from '../../components/StarsRate';
 
 export default function DetailsScreen({ route }) {
+  const { addToFavorites, userFavorites } = useContext(AuthContext);
+
   const [data, setData] = useState(route?.params?.params);
-  const { width, height } = Dimensions.get('screen')
+  const [isFavorite, setIsFavorite] = useState(false);
+  const { width, height } = Dimensions.get('screen');
+
+  useEffect(() => {
+    function isAlreadyFavorite(id) {
+      let isInclude = userFavorites.some(item => String(item.id) === String(id))
+      setIsFavorite(isInclude);
+    }
+    isAlreadyFavorite(data.id)
+  }, [])
 
   const convertMinutesInHours = (minuts) => {
     const hours = Math.floor(minuts / 60);
@@ -34,6 +45,12 @@ export default function DetailsScreen({ route }) {
     const month = arrayDate[1];
     const day = arrayDate[2];
     return `${day}/${month}/${year}`;
+  }
+
+
+  function Favorites() {
+    addToFavorites(data);
+    setIsFavorite(!isFavorite);
   }
 
   return (
@@ -86,7 +103,16 @@ export default function DetailsScreen({ route }) {
             <Play />
             <WatchText>Trailer</WatchText>
           </WatchButton>
-          <Heart />
+
+          <Pressable onPress={Favorites}>
+            <Icon
+              name={isFavorite ? 'favorite' : 'favorite-outline'}
+              size={50}
+              color='#D22730'
+            />
+
+          </Pressable>
+
         </View>
       </ScrollView>
     </Container>

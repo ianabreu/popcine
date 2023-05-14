@@ -61,10 +61,4 @@ export const Play = styled(Icon).attrs({
 })`
 padding-right: 5px;
 color: #FFF;
-`
-export const Heart = styled(Icon).attrs({
-    name: 'favorite-outline',
-    size: 50,
-})`
-color: #D22730;
-`
+`;

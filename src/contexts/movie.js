@@ -40,7 +40,14 @@ export default function MovieProvider({ children }) {
 
 
     return (
-        <MovieContext.Provider value={{trendingMovie, movies, getTvData, getMovieData, handleSearch}}>
+        <MovieContext.Provider value={{
+            trendingMovie, 
+            movies, 
+            getTvData, 
+            getMovieData, 
+            handleSearch,
+            
+            }}>
             {children}
         </MovieContext.Provider>
     );

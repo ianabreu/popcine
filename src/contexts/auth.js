@@ -1,4 +1,4 @@
-import React, { useState, createContext, useEffect } from "react";
+import React, { useState, createContext, useEffect, useContext } from "react";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import auth from '@react-native-firebase/auth';
@@ -8,7 +8,9 @@ import { useNavigation } from "@react-navigation/native";
 export const AuthContext = createContext({});
 
 export default function AuthProvider({ children }) {
+
     const [user, setUser] = useState(null);
+    const [userFavorites, setUserFavorites] = useState([]);
     const [loading, setLoading] = useState(false);
     const navigation = useNavigation();
 
@@ -18,13 +20,54 @@ export default function AuthProvider({ children }) {
             try {
                 const data = await AsyncStorage.getItem('@user')
                 data !== null && setUser(JSON.parse(data));
-              } 
-              catch(err) {
+            }
+            catch (err) {
                 console.log(err)
-              }
+            }
         }
         loadStorage();
-    })
+    }, [])
+
+    useEffect(() => {
+        async function getFavorites() {
+            let list = [];
+            uid = auth().currentUser.uid
+            const docRef = firestore().collection('USERS').doc(uid).collection('FAVORITES');
+            await docRef.get()
+                .then((querySnapshot) => {
+                    querySnapshot.forEach((doc) => {
+                        list.push(doc.data())
+                    })
+                    setUserFavorites(list);
+                    storageFavorites(list);
+                })
+        }
+        getFavorites();
+    }, [])
+
+    useEffect(() => {
+        async function loadFavorites() {
+            try {
+                const data = await AsyncStorage.getItem('@FAVORITES')
+                data !== null && setUserFavorites(JSON.parse(data));
+            }
+            catch (err) {
+                console.log(err)
+            }
+        }
+        loadFavorites();
+    }, [])
+
+
+    async function storageFavorites(data) {
+        try {
+            const jsonData = JSON.stringify(data);
+            await AsyncStorage.setItem('@FAVORITES', jsonData)
+
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     async function hasUser() {
         if (auth().currentUser) {
@@ -46,15 +89,12 @@ export default function AuthProvider({ children }) {
                 await auth().currentUser.updateProfile(update);
 
                 let uid = userCredential.user.uid
-                await firestore().collection('users').doc(uid).set({
-                    favorites: [],
-                })
+                await firestore().collection('USERS').doc(uid).set({})
                     .then(() => {
                         let data = {
                             uid: uid,
                             name: name,
                             email: userCredential.user.email,
-                            favorites: [],
                         }
                         storageUser(data);
                         setUser(data);
@@ -77,12 +117,10 @@ export default function AuthProvider({ children }) {
             .signInWithEmailAndPassword(email, password)
             .then(async (userCredential) => {
                 let uid = userCredential.user.uid
-                const userData = await firestore().collection('users').doc(uid).get();
                 let data = {
                     uid: uid,
                     name: userCredential.user.displayName,
                     email: userCredential.user.email,
-                    favorites: userData.data().favorites,
                 }
                 storageUser(data);
                 setUser(data);
@@ -94,22 +132,20 @@ export default function AuthProvider({ children }) {
         setLoading(false);
     }
     async function editUser(name) {
-        let userCredential = auth().currentUser;
+        const userCredential = auth().currentUser;
         if (userCredential.displayName === name) return;;
         setLoading(true);
-        await auth().currentUser.updateProfile({ displayName: name})
-        .then( async () => {
+        await auth().currentUser.updateProfile({ displayName: name })
+            .then(async () => {
                 const userName = auth().currentUser.displayName;
-                const userData = await firestore().collection('users').doc(userCredential.uid).get();
                 let data = {
                     uid: userCredential.uid,
                     name: userName,
                     email: userCredential.email,
-                    favorites: userData.data().favorites,
                 }
-                    setUser(data);
-                    storageUser(data);
-        })
+                setUser(data);
+                storageUser(data);
+            })
         setLoading(false);
     }
 
@@ -117,7 +153,7 @@ export default function AuthProvider({ children }) {
         try {
             const jsonData = JSON.stringify(data);
             await AsyncStorage.setItem('@user', jsonData)
-            
+
         } catch (error) {
             console.log(error);
         }
@@ -125,12 +161,46 @@ export default function AuthProvider({ children }) {
     async function signOut() {
         setLoading(true);
         await auth().signOut()
-        .then(() => {
-            AsyncStorage.clear();
-            setUser(null);
-        })        
+            .then(() => {
+                AsyncStorage.clear();
+                setUser(null);
+            })
         setLoading(false);
     }
+    async function addToFavorites(data) {
+        if (user === null) { return navigation.navigate('SignIn') }
+
+        const dataId = String(data.id);
+        const uid = auth().currentUser.uid;
+
+        const favorite = data;
+
+        const docRef = firestore().collection('USERS').doc(uid).collection('FAVORITES').doc(dataId);
+
+        if (((await docRef.get()).exists)) {
+            await docRef.delete()
+                .then(() => {
+                    let arrayData = [...userFavorites]
+                    if (user != null) {
+                        let newArray = arrayData.filter((item) => {
+                            String(item.id) != dataId
+                        })
+                        setUserFavorites(newArray);
+                    }
+                })
+        } else {
+            await docRef.set(favorite)
+                .then(() => {
+                    let arrayData = [...userFavorites]
+                    if (user != null) {
+                        arrayData.push(favorite);
+                    }
+                    setUserFavorites(arrayData);
+                });
+        }
+
+    }
+
     return (
         <AuthContext.Provider value={{
             signed: !!user,
@@ -141,6 +211,8 @@ export default function AuthProvider({ children }) {
             signOut,
             hasUser,
             editUser,
+            addToFavorites,
+            userFavorites,
 
         }}>
             {children}
