@@ -16,12 +16,16 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { AuthContext } from '../../contexts/auth';
 import StarsRate from '../../components/StarsRate';
 import { useIsFocused } from '@react-navigation/native';
+import { MovieContext } from '../../contexts/movie';
 
 export default function DetailsScreen({ route }) {
   const { addToFavorites, userFavorites } = useContext(AuthContext);
+  const { getMovieVideo } = useContext(MovieContext);
   const isFocused = useIsFocused();
 
   const [data, setData] = useState(route?.params?.params);
+
+  const [video, setVideo] = useState([]);
   const [isFavorite, setIsFavorite] = useState(false);
   const { width, height } = Dimensions.get('screen');
 
@@ -48,11 +52,13 @@ export default function DetailsScreen({ route }) {
     const day = arrayDate[2];
     return `${day}/${month}/${year}`;
   }
-
-
   function Favorites() {
     addToFavorites(data);
     setIsFavorite(!isFavorite);
+  }
+  async function handleGetMovieVideo(id) {
+    const videoData = await getMovieVideo(id);
+    setVideo(videoData.results);
   }
 
   return (
@@ -72,17 +78,31 @@ export default function DetailsScreen({ route }) {
       }
       <ScrollView>
 
-        <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+            alignItems: 'flex-start'
+          }}
+        >
+
           <View style={{ flex: 0.8 }}>
-            <Capa source={data.poster_path != null ? { uri: `https://image.tmdb.org/t/p/w500/${data.poster_path}` }
-              :
-              require('../../assets/poster_default.jpg')
-            }
+            <Capa
+              source={data.poster_path != null ? { uri: `https://image.tmdb.org/t/p/w500/${data.poster_path}` }
+                :
+                require('../../assets/poster_default.jpg')
+              }
             />
           </View>
 
-          <View style={{ justifyContent: 'flex-start', alignItems: 'center', flex: 1 }}>
-            <Title>{data.title || data.original_title || data.name || data.original_name || 'Sem Título'}</Title>
+          <View
+            style={{
+              justifyContent: 'flex-start',
+              alignItems: 'center', flex: 1
+            }}
+          >
+
+            <Title>{data.title || data.original_title || data.name || data.original_name || ''}</Title>
             {data.genres && data.genres.map((item) => (
               <Genres key={item.id}>{item.name}</Genres>
             ))}
@@ -100,8 +120,15 @@ export default function DetailsScreen({ route }) {
             data.overview}
         </Overview>
 
-        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around', marginBottom: 60 }}>
-          <WatchButton>
+        <View style={{
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-around',
+          marginBottom: 60
+        }}
+        >
+
+          <WatchButton onPress={() => handleGetMovieVideo(data.id)}>
             <Play />
             <WatchText>Trailer</WatchText>
           </WatchButton>
@@ -112,10 +139,13 @@ export default function DetailsScreen({ route }) {
               size={50}
               color='#D22730'
             />
-
           </Pressable>
 
         </View>
+
+        
+
+
       </ScrollView>
     </Container>
   );

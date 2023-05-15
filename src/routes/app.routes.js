@@ -4,7 +4,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 
 import { HomeRoutes, SearchRoutes, FavoriteRoutes } from './stack.routes';
-import Favorites from '../pages/Favorites';
 
 const AppTab = createBottomTabNavigator();
 
@@ -37,10 +36,11 @@ export default function TabRoutes() {
                     left: 0,
                     backgroundColor: 'transparent'
                 }
+                
 
             })}
-            initialRouteName='Home'
-        >
+            initialRouteName='HomeStack'
+>
             <AppTab.Screen component={HomeRoutes} name={'HomeStack'} />
             <AppTab.Screen component={SearchRoutes} name={'SearchStack'} />
             <AppTab.Screen component={FavoriteRoutes} name={'FavoriteStack'}

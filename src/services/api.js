@@ -85,6 +85,16 @@ export async function getUniqueMovie(id) {
         
     }
 }
+
+export async function getVideoMovie(id) {
+    try {
+        const res = await api.get(`/movie/${id}/videos?language=${LANG}&api_key=${API}`)
+        return res.data;
+    } catch (error) {
+        console.log(error);
+        
+    }
+}
 export async function getSearchMovie(query) {
     const res = await api.get(`/search/movie?language=${LANG}&api_key=${API}&query=${query}&page=1`)
     return res.data.results;

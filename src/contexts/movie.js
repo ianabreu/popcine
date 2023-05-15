@@ -1,5 +1,5 @@
 import React, { useState, useEffect, createContext } from "react";
-import { getTrendingOfWeek, HomeData, getUniqueTv, getUniqueMovie, getSearchMovie } from '../services/api';
+import { getTrendingOfWeek, HomeData, getUniqueTv, getUniqueMovie, getSearchMovie, getVideoMovie } from '../services/api';
 
 
 export const MovieContext = createContext({});
@@ -37,8 +37,12 @@ export default function MovieProvider({ children }) {
         const results = getSearchMovie(formatedString);
         return results;
     }
-
-
+    
+    async function getMovieVideo(id) {
+        const response = await getVideoMovie(id);
+        return response;
+    }
+    
     return (
         <MovieContext.Provider value={{
             trendingMovie, 
@@ -46,6 +50,7 @@ export default function MovieProvider({ children }) {
             getTvData, 
             getMovieData, 
             handleSearch,
+            getMovieVideo,
             
             }}>
             {children}
