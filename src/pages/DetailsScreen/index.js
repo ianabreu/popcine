@@ -1,5 +1,5 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Dimensions, Image, Pressable, ScrollView, View } from 'react-native';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { Alert, Button, Dimensions, FlatList, Image, Pressable, ScrollView, Text, View } from 'react-native';
 import {
   Container,
   Title,
@@ -13,9 +13,12 @@ import {
   Play,
 } from './styles';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { AuthContext } from '../../contexts/auth';
 import StarsRate from '../../components/StarsRate';
+import VideoList from '../../components/VideoList';
+
 import { useIsFocused } from '@react-navigation/native';
+
+import { AuthContext } from '../../contexts/auth';
 import { MovieContext } from '../../contexts/movie';
 
 export default function DetailsScreen({ route }) {
@@ -143,8 +146,13 @@ export default function DetailsScreen({ route }) {
 
         </View>
 
-        
-
+        <FlatList
+        showsHorizontalScrollIndicator={false}
+        horizontal
+        data={video}
+        keyExtractor={(item) => item.id}
+        renderItem={({ item }) => (<VideoList video={item}/>)}
+      />
 
       </ScrollView>
     </Container>
