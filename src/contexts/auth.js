@@ -29,7 +29,9 @@ export default function AuthProvider({ children }) {
     }, [])
 
     useEffect(() => { 
-        getFavorites();
+        if (user !== null) {
+            getFavorites();
+        }
     }, [])
 
     async function getFavorites() {
@@ -129,6 +131,7 @@ export default function AuthProvider({ children }) {
             .catch((error) => {
                 console.log(error);
             })
+            getFavorites();
 
         setLoading(false);
     }
@@ -164,6 +167,7 @@ export default function AuthProvider({ children }) {
         await auth().signOut()
             .then(() => {
                 AsyncStorage.clear();
+                setUserFavorites([]);
                 setUser(null);
             })
         setLoading(false);

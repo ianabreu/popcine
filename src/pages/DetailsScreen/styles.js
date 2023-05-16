@@ -59,6 +59,6 @@ export const Play = styled(Icon).attrs({
     name: 'play-circle-outline',
     size: 30,
 })`
-padding-right: 5px;
+padding-right: 10px;
 color: #FFF;
 `;

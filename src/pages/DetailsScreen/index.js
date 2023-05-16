@@ -1,5 +1,5 @@
 import React, { useCallback, useContext, useEffect, useState } from 'react';
-import { Alert, Button, Dimensions, FlatList, Image, Pressable, ScrollView, Text, View } from 'react-native';
+import { Alert, Button, Dimensions, FlatList, Image, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import {
   Container,
   Title,
@@ -29,6 +29,8 @@ export default function DetailsScreen({ route }) {
   const [data, setData] = useState(route?.params?.params);
 
   const [video, setVideo] = useState([]);
+  const [loadVideo, setLoadVideo] = useState(false);
+
   const [isFavorite, setIsFavorite] = useState(false);
   const { width, height } = Dimensions.get('screen');
 
@@ -40,6 +42,9 @@ export default function DetailsScreen({ route }) {
     isAlreadyFavorite(data.id)
   }, [isFocused])
 
+  useEffect(() => {
+    handleGetMovieVideo(data.id)
+  }, [])
   const convertMinutesInHours = (minuts) => {
     const hours = Math.floor(minuts / 60);
     const min = minuts % 60;
@@ -60,8 +65,10 @@ export default function DetailsScreen({ route }) {
     setIsFavorite(!isFavorite);
   }
   async function handleGetMovieVideo(id) {
+    setLoadVideo(false);
     const videoData = await getMovieVideo(id);
     setVideo(videoData.results);
+    setLoadVideo(true);
   }
 
   return (
@@ -110,9 +117,20 @@ export default function DetailsScreen({ route }) {
               <Genres key={item.id}>{item.name}</Genres>
             ))}
             <StarsRate rating={data.vote_average} />
-            <DetailTwin>{data.first_air_date ? formatingDate(data.first_air_date) : data.release_date ? formatingDate(data.release_date) : ''}</DetailTwin>
-            {data.runtime != 0 && (<DetailTwin>{convertMinutesInHours(Number(data.runtime))}</DetailTwin>)}
+            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 
+              <View>
+                <DetailTwin>{data.first_air_date ? formatingDate(data.first_air_date) : data.release_date ? formatingDate(data.release_date) : ''}</DetailTwin>
+                {data.runtime != 0 && (<DetailTwin>{convertMinutesInHours(Number(data.runtime))}</DetailTwin>)}
+              </View>
+              <Pressable style={{ marginLeft: 20 }} onPress={Favorites}>
+                <Icon
+                  name={isFavorite ? 'favorite' : 'favorite-outline'}
+                  size={50}
+                  color='#D22730'
+                />
+              </Pressable>
+            </View>
           </View>
         </View>
 
@@ -127,34 +145,35 @@ export default function DetailsScreen({ route }) {
           flexDirection: 'row',
           alignItems: 'center',
           justifyContent: 'space-around',
-          marginBottom: 60
+          marginBottom: 10,
         }}
         >
 
-          <WatchButton onPress={() => handleGetMovieVideo(data.id)}>
+          <View style={{ flexDirection: 'row', alignSelf: 'center', justifyContent: 'flex-start', flex: 1 }}>
             <Play />
-            <WatchText>Trailer</WatchText>
-          </WatchButton>
-
-          <Pressable onPress={Favorites}>
-            <Icon
-              name={isFavorite ? 'favorite' : 'favorite-outline'}
-              size={50}
-              color='#D22730'
-            />
-          </Pressable>
+            <Title>Trailer</Title>
+          </View>
 
         </View>
-
         <FlatList
-        showsHorizontalScrollIndicator={false}
-        horizontal
-        data={video}
-        keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (<VideoList video={item}/>)}
-      />
+          style={styles.videoList}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          data={video}
+          keyExtractor={(item) => item.id}
+          renderItem={({ item }) => (<VideoList screen={{ width: width, height: height }} video={item} />)}
+        />
+
 
       </ScrollView>
     </Container>
   );
 }
+
+const styles = StyleSheet.create({
+  videoList: {
+    borderColor: '#fff',
+    borderWidth:2,
+    marginBottom: 60
+  }
+})

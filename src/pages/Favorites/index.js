@@ -1,12 +1,14 @@
 import React, { useContext } from 'react';
-import { Dimensions, FlatList, View } from 'react-native';
+import { Dimensions, FlatList, TouchableOpacity, View } from 'react-native';
 import { Container, FavoritesArea, Title } from './styles';
+import { BtnArea, BtnText } from '../Login/styles';
 
 import { AuthContext } from '../../contexts/auth';
 import Header from '../../components/Header';
 import MovieButton from '../../components/MovieButton';
 import { useNavigation } from '@react-navigation/native';
 
+const { width, height } = Dimensions.get('window')
 export default function Favorites() {
   const { user, userFavorites } = useContext(AuthContext);
   const navigation = useNavigation();
@@ -25,20 +27,35 @@ export default function Favorites() {
           alignItems: 'stretch',
           width: '90%',
         }}>
-
-          <FlatList
-            numColumns={3}
-            key={'#'}
-            data={userFavorites}
-            ListEmptyComponent={(<EmptyList userName={user?.name} />)}
-            keyExtractor={(item) => String(item.id)}
-            renderItem={({ item }) => (
-              <MovieButton
-                movie={item}
-                goToDetails={openDetails}
-              />
-            )}
-          />
+          {user ?
+            <FlatList
+              numColumns={3}
+              key={'#'}
+              data={userFavorites}
+              ListEmptyComponent={(<EmptyList userName={user?.name} />)}
+              keyExtractor={(item) => String(item.id)}
+              renderItem={({ item }) => (
+                <MovieButton
+                  movie={item}
+                  goToDetails={openDetails}
+                />
+              )}
+            />
+            :
+            <View
+              style={{
+                flex: 1,
+                width: width * 0.9,
+                height: height * 0.6,
+                justifyContent: 'center'
+              }}
+            >
+              <Title>Faça login para acessar seus filmes favoritos</Title>
+              <BtnArea style={{width: width * 0.9}} onPress={() => navigation.navigate('SignIn')}>
+                <BtnText>Fazer Login</BtnText>
+              </BtnArea>
+            </View>
+          }
 
         </View>
       </FavoritesArea>
@@ -47,13 +64,12 @@ export default function Favorites() {
 }
 
 function EmptyList({ userName }) {
-  const { width, height } = Dimensions.get('window')
   return (
     <View
       style={{
         flex: 1,
-        width: width,
-        height: height * 0.7,
+        width: width * 0.9,
+        height: height * 0.6,
         alignItems: 'center',
         justifyContent: 'center'
       }}
