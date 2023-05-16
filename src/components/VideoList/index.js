@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { Alert, Button, Pressable, Text, TouchableOpacity, View } from 'react-native';
 
 import YoutubePlayer from "react-native-youtube-iframe";
@@ -7,8 +7,10 @@ import YoutubePlayer from "react-native-youtube-iframe";
 
 
 export default function VideoList({ video, screen }) {
+    const playerRef = useRef();
 
     const [playing, setPlaying] = useState(false);
+
     const params = {
         controls: 2,
         modestbranding: 1,
@@ -25,11 +27,12 @@ export default function VideoList({ video, screen }) {
     }, []);
 
     return (
-            <View style={{ width: screen.width * 0.90, marginHorizontal: 10 }}>
+            <View style={{ width: screen.width, paddingBottom: 40}}>
                 <YoutubePlayer
+                    ref={playerRef}
                     webViewStyle={{ opacity: 0.99 }}
                     webViewProps={{ renderToHardwareTextureAndroid: true, }}
-                    height={280}
+                    height={300}
                     play={playing}
                     videoId={video.key}
                     onChangeState={onStateChange}

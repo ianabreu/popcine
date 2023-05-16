@@ -27,10 +27,7 @@ export default function DetailsScreen({ route }) {
   const isFocused = useIsFocused();
 
   const [data, setData] = useState(route?.params?.params);
-
-  const [video, setVideo] = useState([]);
-  const [loadVideo, setLoadVideo] = useState(false);
-
+  const [video, setVideo] = useState(null);
   const [isFavorite, setIsFavorite] = useState(false);
   const { width, height } = Dimensions.get('screen');
 
@@ -65,10 +62,8 @@ export default function DetailsScreen({ route }) {
     setIsFavorite(!isFavorite);
   }
   async function handleGetMovieVideo(id) {
-    setLoadVideo(false);
     const videoData = await getMovieVideo(id);
-    setVideo(videoData.results);
-    setLoadVideo(true);
+    videoData.results.length > 0 && setVideo(videoData.results);
   }
 
   return (
@@ -135,34 +130,42 @@ export default function DetailsScreen({ route }) {
         </View>
 
         <TitleOverview>Sinopse:</TitleOverview>
-        <Overview>
+        <Overview style={!video && { marginBottom: 60 }}>
           {data.overview === '' ? 'Não temos uma sinopse em Português do Brasil.'
             :
             data.overview}
         </Overview>
 
-        <View style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-          justifyContent: 'space-around',
-          marginBottom: 10,
-        }}
-        >
+        {video &&
+          <>
+            <View style={{
+              flexDirection: 'row',
+              alignItems: 'center',
+              justifyContent: 'space-around',
+              marginBottom: 10,
+            }}
+            >
 
-          <View style={{ flexDirection: 'row', alignSelf: 'center', justifyContent: 'flex-start', flex: 1 }}>
-            <Play />
-            <Title>Trailer</Title>
-          </View>
+              <View style={{ flexDirection: 'row', alignSelf: 'center', justifyContent: 'flex-start', flex: 1 }}>
+                <Play />
+                <Title>Trailer</Title>
+              </View>
 
-        </View>
-        <FlatList
-          style={styles.videoList}
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          data={video}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => (<VideoList screen={{ width: width, height: height }} video={item} />)}
-        />
+            </View>
+
+            <View style={{ flex: 1, width: width, }}>
+
+              <FlatList
+                data={video}
+                horizontal
+                pagingEnabled
+                showsHorizontalScrollIndicator={false}
+                keyExtractor={(item) => item.id}
+                renderItem={({ item }) => (<VideoList screen={{ width: width, height: height }} video={item} />)}
+              />
+            </View>
+          </>
+        }
 
 
       </ScrollView>
@@ -172,8 +175,6 @@ export default function DetailsScreen({ route }) {
 
 const styles = StyleSheet.create({
   videoList: {
-    borderColor: '#fff',
-    borderWidth:2,
     marginBottom: 60
   }
 })
