@@ -14,6 +14,9 @@ import { useNavigation } from '@react-navigation/native';
 export default function Home() {
   const { trendingMovie, movies, getTvData, getMovieData } = useContext(MovieContext);
   const { width, height } = Dimensions.get('screen')
+  const navigation = useNavigation();
+ 
+ 
   async function openDetails(data) {
     let response;
     if (data.media_type === 'tv') {
@@ -25,7 +28,6 @@ export default function Home() {
       params: response
     })
   }
-  const navigation = useNavigation();
 
   return (
     <Container showsVerticalScrollIndicator={false}>
@@ -42,7 +44,7 @@ export default function Home() {
           opacity: 0.2
         }}
       />
-      <TrendingMovie data={trendingMovie} />
+      <TrendingMovie data={trendingMovie} seeMore={openDetails} />
       {<HomeList>
         {movies.map((item, key) => (
           <MovieList key={key} data={item} handleGoToDetails={openDetails} />
