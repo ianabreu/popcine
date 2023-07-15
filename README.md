@@ -2,6 +2,9 @@
 
 Bem-vindo ao PopCine! Este é um projeto de um aplicativo desenvolvido em React Native para encontrar informações sobre filmes, incluindo detalhes sobre filmes populares, próximos lançamentos, avaliações, elenco e muito mais.
 
+![Popcine](https://github.com/ianabreu/popcine/blob/main/src/assets/github-popcine.png)
+
+
 ## Funcionalidades
 
 - Pesquisa de filmes por título.
